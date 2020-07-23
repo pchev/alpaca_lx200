@@ -1,0 +1,15 @@
+
+Copyright: 2020 Patrick Chevalley <pch@ap-i.net>
+
+Information :
+Name        : alpaca-lx200
+Version     : 4.0.0
+Release     : 1
+Group       : Sciences/Astronomy
+License     : GPL-2+
+Packager    : Patrick Chevalley
+URL         : https://github.com/pchev/alpaca_lx200
+Summary     : ASCOM Alpaca driver for LX200 telescope
+Description :
+ASCOM Alpaca driver for LX200 telescope compatible with different Meade 
+or compatible box using the LX200 protocol

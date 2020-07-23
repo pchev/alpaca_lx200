@@ -1,0 +1,26 @@
+# ignore backup dir
+src/backup/
+# ignore fpc makefiles
+Makefile
+Makefile.fpc
+Makefile.fpcxxx
+# ignore build dir
+src/lib/
+src/units/
+src/alpaca_lx200.app
+component/lib/
+component/synapse/source/lib/lib/
+# ignore various files
+src/*.lps
+doc/alpaca_lx200.wiki
+# ignore binary
+*.o
+src/alpaca_lx200
+src/alpaca_lx200.exe
+alpaca_lx200*.rpm
+alpaca-lx200*.deb
+alpaca_lx200*.exe
+alpaca_lx200*.zip
+alpaca_lx200*.tar.xz
+alpaca_lx200*.tar.bz2
+alpaca_lx200*.dmg

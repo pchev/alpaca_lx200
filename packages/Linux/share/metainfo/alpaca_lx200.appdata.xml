@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+ <id type="desktop">alpaca_lx200.desktop</id>
+ <metadata_license>CC0-1.0</metadata_license>
+ <project_license>GPL-2.0+</project_license>
+ <name>Alpaca_LX200</name>
+ <summary>ASCOM Alpaca driver for LX200 telescope</summary>
+ <description>
+  <p>
+    ASCOM Alpaca driver for LX200 telescope.
+  </p>
+  <p>
+    ASCOM Alpaca driver for LX200 telescope compatible with different Meade 
+    or compatible box using the LX200 protocol
+  </p>
+ </description>
+ <screenshots>
+  <screenshot type="default">
+      <image>https://github.com/pchev/alpaca_lx200</image>
+      <caption>The main window of Alpaca_LX200</caption>
+  </screenshot>
+ </screenshots>
+ <url type="homepage">https://github.com/pchev/alpaca_lx200</url>
+ <updatecontact>pch@ap-i.net</updatecontact>
+</application>
