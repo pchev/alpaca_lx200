@@ -8,7 +8,7 @@ AppPublisherURL=https://github.com/pchev/alpaca_lx200
 AppSupportURL=https://github.com/pchev/alpaca_lx200
 AppUpdatesURL=https://github.com/pchev/alpaca_lx200
 UsePreviousAppDir=true
-DefaultDirName={pf}\Alpaca_LX200
+DefaultDirName={commonpf}\Alpaca_LX200
 DefaultGroupName=Alpaca_LX200
 AllowNoIcons=true
 InfoBeforeFile=Presetup\readme.txt
@@ -20,6 +20,7 @@ Uninstallable=true
 UninstallLogMode=append
 DirExistsWarning=no
 ShowLanguageDialog=yes
+WizardStyle=modern
 AppID={{590582c2-4ec7-44e2-8ef3-9014c1f1f62b}
 ArchitecturesInstallIn64BitMode=x64
 
@@ -34,5 +35,5 @@ Source: Data\*; DestDir: {app}; Flags: ignoreversion recursesubdirs createallsub
 
 [Icons]
 Name: {group}\Alpaca_LX200; Filename: {app}\alpaca_lx200.exe; WorkingDir: {app}
-Name: {userdesktop}\Alpaca_LX200; Filename: {app}\alpaca_lx200.exe; WorkingDir: {app}; Tasks: desktopicon
+Name: {commondesktop}\Alpaca_LX200; Filename: {app}\alpaca_lx200.exe; WorkingDir: {app}; Tasks: desktopicon
  
