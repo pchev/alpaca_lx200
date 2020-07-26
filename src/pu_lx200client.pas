@@ -139,7 +139,6 @@ type
     az_x: TEdit;
     Label12: TLabel;
     alt_y: TEdit;
-    ShowAltAz: TCheckBox;
     CheckBox2: TCheckBox;
     GroupBox8: TGroupBox;
     CheckBox3: TCheckBox;
@@ -316,7 +315,8 @@ type
   private
     { Private declarations }
     Appdir, ConfigDir, ConfigFile,AlpacaConfig: string;
-    CoordLock: boolean;
+    CoordLock, FSlewing: boolean;
+    GotoTargetRA, GotoTargetDEC: double;
     Initial: boolean;
     procedure GetAppDir;
     procedure ScaleMainForm;
@@ -333,6 +333,7 @@ type
     // Observatory longitude (Negative East of Greenwich}
     Latitude: double;                  // Observatory latitude
     Timezone: double;                  // Observatory timezone
+    FCanShowAltAz: boolean;
     procedure SetLang;
     procedure ReadConfig;
     procedure SetRefreshRate(rate: integer);
@@ -350,6 +351,7 @@ type
     procedure ScopeGetRaDec(var ar, de: double; var ok: boolean);
     procedure ScopeGetAltAz(var alt, az: double; var ok: boolean);
     procedure ScopeGoto(ar, de: double; var ok: boolean);
+    procedure ScopeGotoWait(ar, de: double; var ok: boolean);
     procedure ScopeAbortSlew;
     procedure ScopeReset;
     function ScopeInitialized: boolean;
@@ -361,7 +363,10 @@ type
     procedure ScopeMoveAxis(axis: integer; rate: string);
     function  ScopeGetStatus:string;
     function  ScopeGetSideralTime:double;
+    function ScopeGetTracking: boolean;
+    function GetUTCDate: string;
     property  AlignmentMode: integer read GetAlignmentMode;
+    property Slewing: boolean read FSlewing;
   end;
 
   var
@@ -674,18 +679,25 @@ end;
 procedure Tpop_lx200.ShowCoordinates;
 var
   s1, s2, s3: string;
+  altazok: boolean;
+const slewprec=1/60;
 begin
   if ScopeInitialized then
   begin
     LX200_QueryEQ(Curdeg_x, Curdeg_y);
-    if ShowAltAz.Checked then
-      LX200_QueryAz(Cur_az, Cur_alt);
+    if FCanShowAltAz then
+      altazok:=LX200_QueryAz(Cur_az, Cur_alt);
+    if FSlewing then begin
+      if (abs(GotoTargetRA-Curdeg_x)<slewprec) and (abs(GotoTargetDEC-Curdeg_y)<slewprec) then begin
+         FSlewing:=false;
+      end;
+    end;
     case RadioGroup2.ItemIndex of
       0:
       begin
         pos_x.Text := armtostr(Curdeg_x / 15, s1, s2);
         pos_y.Text := demtostr(Curdeg_y, s1, s2);
-        if ShowAltAz.Checked then
+        if FCanShowAltAz and altazok then
         begin
           az_x.Text := demtostr(Cur_az, s1, s2);
           alt_y.Text := demtostr(Cur_alt, s1, s2);
@@ -700,7 +712,7 @@ begin
       begin
         pos_x.Text := artostr(Curdeg_x / 15, s1, s2, s3);
         pos_y.Text := detostr(Curdeg_y, s1, s2, s3);
-        if ShowAltAz.Checked then
+        if FCanShowAltAz and altazok then
         begin
           az_x.Text := detostr(Cur_az, s1, s2, s3);
           alt_y.Text := detostr(Cur_alt, s1, s2, s3);
@@ -712,7 +724,7 @@ begin
         end;
       end;
     end;
-    if ShowAltAz.Checked and (Cur_alt < 0) then
+    if FCanShowAltAz and altazok and (Cur_alt < 0) then
       alt_y.Color := clRed
     else
       alt_y.Color := clWindow;
@@ -786,6 +798,7 @@ end;
 
 procedure Tpop_lx200.ScopeConnect(var ok: boolean);
 begin
+  FSlewing := false;
   led.color := clRed;
   led.refresh;
   timer1.Enabled := False;
@@ -843,6 +856,7 @@ begin
   pos_y.Text := '';
   az_x.Text := '';
   alt_y.Text := '';
+  FSlewing := false;
   ok := LX200_Close;
   led.color := clRed;
   ChangeButton(False);
@@ -959,7 +973,27 @@ end;
 
 procedure Tpop_lx200.ScopeGoto(ar, de: double; var ok: boolean);
 begin
+  GotoTargetRA:=ar*15;
+  GotoTargetDEC:=de;
   ok := LX200_Goto(ar * 15, de);
+  if ok then begin
+    FSlewing := true;
+  end;
+end;
+
+procedure Tpop_lx200.ScopeGotoWait(ar, de: double; var ok: boolean);
+var timeout: double;
+const secday = 3600 * 24;
+begin
+  ScopeGoto(ar, de, ok);
+  if ok then begin
+    timeout:=now+120/secday;
+    repeat
+      sleep(1000);
+      Application.ProcessMessages;
+    until (not FSlewing) or (now>timeout);
+    ok:=not FSlewing;
+  end;
 end;
 
 procedure Tpop_lx200.ScopeAbortSlew;
@@ -1185,8 +1219,7 @@ begin
   if cbo_type.Text = 'LX200' then
   begin
     PortSpeedbox.ItemIndex := 5;
-    ShowAltAz.Checked := False;
-    ShowAltAz.Enabled := True;
+    FCanShowAltAz := True;
     GroupBox1.Visible := True;
     RadioGroup2.Visible := True;
     GroupBox5.Visible := True;
@@ -1206,8 +1239,7 @@ begin
   else if cbo_type.Text = 'Scope.exe' then
   begin
     PortSpeedbox.ItemIndex := 5;
-    ShowAltAz.Checked := True;
-    ShowAltAz.Enabled := True;
+    FCanShowAltAz := True;
     GroupBox1.Visible := True;
     RadioGroup2.Visible := True;
     GroupBox5.Visible := True;
@@ -1230,8 +1262,7 @@ begin
   else if cbo_type.Text = 'AutoStar' then
   begin
     PortSpeedbox.ItemIndex := 5;
-    ShowAltAz.Checked := False;
-    ShowAltAz.Enabled := True;
+    FCanShowAltAz := True;
     GroupBox1.Visible := True;
     RadioGroup2.Visible := True;
     GroupBox5.Visible := True;
@@ -1249,8 +1280,7 @@ begin
   else if cbo_type.Text = 'Magellan-II' then
   begin
     PortSpeedbox.ItemIndex := 1;
-    ShowAltAz.Checked := False;
-    ShowAltAz.Enabled := False;
+    FCanShowAltAz := False;
     GroupBox1.Visible := False;
     RadioGroup2.Visible := False;
     GroupBox5.Visible := False;
@@ -1263,8 +1293,7 @@ begin
   else if cbo_type.Text = 'Magellan-I' then
   begin
     PortSpeedbox.ItemIndex := 2;
-    ShowAltAz.Checked := False;
-    ShowAltAz.Enabled := False;
+    FCanShowAltAz := False;
     GroupBox1.Visible := False;
     RadioGroup2.Visible := False;
     GroupBox5.Visible := False;
@@ -1290,7 +1319,6 @@ begin
   tcpport.Text := ini.readstring('lx200', 'tcpport', '999');
   tcptimeout.Text := ini.readstring('lx200', 'tcptimeout', '1000');
   checkBox1.Checked := ini.ReadBool('lx200', 'hpp', False);
-  ShowAltAz.Checked := ini.ReadBool('lx200', 'AltAz', False);
   av := ini.ReadBool('lx200', 'AlwaysVisible', True);
   checkBox3.Checked := ini.ReadBool('lx200', 'SwapNS', False);
   checkBox4.Checked := ini.ReadBool('lx200', 'SwapEW', False);
@@ -1350,6 +1378,7 @@ begin
   GetAppDir;
   ScaleMainForm;
   CoordLock := False;
+  FSlewing := false;
   Initial := True;
   ReadConfig;
 end;
@@ -1395,7 +1424,6 @@ begin
   ini.writestring('lx200', 'tcpport', tcpport.Text);
   ini.writestring('lx200', 'tcptimeout', tcptimeout.Text);
   ini.writeBool('lx200', 'hpp', checkBox1.Checked);
-  ini.writeBool('lx200', 'AltAz', ShowAltAz.Checked);
   ini.writeBool('lx200', 'AlwaysVisible', checkbox2.Checked);
   ini.writeBool('lx200', 'SwapNS', checkbox3.Checked);
   ini.writeBool('lx200', 'SwapEW', checkbox4.Checked);
@@ -1554,8 +1582,7 @@ begin
     DatabitBox.ItemIndex := 4;
     Paritybox.ItemIndex := 0;
     StopbitBox.ItemIndex := 0;
-    ShowAltAz.Checked := False;
-    ShowAltAz.Enabled := True;
+    FCanShowAltAz := True;
     GroupBox1.Visible := True;
     RadioGroup2.Visible := True;
     GroupBox5.Visible := True;
@@ -1575,8 +1602,7 @@ begin
   else if cbo_type.Text = 'Scope.exe' then
   begin
     PortSpeedbox.ItemIndex := 5;
-    ShowAltAz.Checked := True;
-    ShowAltAz.Enabled := True;
+    FCanShowAltAz := True;
     GroupBox1.Visible := True;
     RadioGroup2.Visible := True;
     GroupBox5.Visible := True;
@@ -1602,8 +1628,7 @@ begin
     DatabitBox.ItemIndex := 4;
     Paritybox.ItemIndex := 0;
     StopbitBox.ItemIndex := 0;
-    ShowAltAz.Checked := False;
-    ShowAltAz.Enabled := True;
+    FCanShowAltAz := True;
     GroupBox1.Visible := True;
     RadioGroup2.Visible := True;
     GroupBox5.Visible := True;
@@ -1624,8 +1649,7 @@ begin
     DatabitBox.ItemIndex := 4;
     Paritybox.ItemIndex := 0;
     StopbitBox.ItemIndex := 0;
-    ShowAltAz.Checked := False;
-    ShowAltAz.Enabled := False;
+    FCanShowAltAz := False;
     GroupBox1.Visible := False;
     RadioGroup2.Visible := False;
     RadioGroup2.ItemIndex := 0;
@@ -1642,8 +1666,7 @@ begin
     DatabitBox.ItemIndex := 4;
     Paritybox.ItemIndex := 0;
     StopbitBox.ItemIndex := 0;
-    ShowAltAz.Checked := False;
-    ShowAltAz.Enabled := False;
+    FCanShowAltAz := False;
     GroupBox1.Visible := False;
     RadioGroup2.Visible := False;
     RadioGroup2.ItemIndex := 0;
@@ -2093,7 +2116,7 @@ begin
     s1 := rsConnected
   else
     s1 := rsDiconnected;
-  result:=rsSytemStatus + #13#10 + cbo_port.Text +' '+ s1 + #13#10;
+  result:=rsSytemStatus + ';' + cbo_port.Text +' '+ s1 ;
 end;
 
 function Tpop_lx200.GetAlignmentMode: integer;
@@ -2129,6 +2152,16 @@ begin
   else begin
     result:=StrToTim(buf,':');
   end;
+end;
+
+function Tpop_lx200.ScopeGetTracking: boolean;
+begin
+  result:=LX200_QueryTracking;
+end;
+
+function Tpop_lx200.GetUTCDate: string;
+begin
+  result:=FormatDateTime(dateiso,NowUTC);
 end;
 
 end.

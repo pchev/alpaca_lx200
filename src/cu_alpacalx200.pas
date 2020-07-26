@@ -62,10 +62,10 @@ type
       function  canunpark: boolean; override;
       function  canpulseguide: boolean; override;
       function  cansetdeclinationrate: boolean; override;
+      function  cansetrightascensionrate: boolean; override;
       function  cansetguiderates: boolean; override;
       function  cansetpark: boolean; override;
       function  cansetpierside: boolean; override;
-      function  cansetrightascensionrate: boolean; override;
       function  cansettracking: boolean; override;
       function  canslew: boolean; override;
       function  canslewaltaz: boolean; override;
@@ -106,10 +106,10 @@ type
       procedure settargetrightascension(value: double); override;
       function  tracking: boolean; override;
       procedure settracking(value: boolean); override;
+      function  utcdate: string; override;
       function  trackingrate: integer; override;
       procedure settrackingrate(value: integer); override;
       function  trackingrates: TTrackingRates; override;
-      function  utcdate: string; override;
       procedure setutcdate(value: string); override;
       procedure abortslew; override;
       function  axisrates(axis:integer): TAxisRates; override;
@@ -230,7 +230,7 @@ end;
 
 function  T_AlpacaLX200.InterfaceVersion: integer;
 begin
-  result:=3;
+  result:=1;
 end;
 
 function  T_AlpacaLX200.Name:string;
@@ -246,12 +246,9 @@ end;
 
 function  T_AlpacaLX200.alignmentmode: integer;
 begin
-  result:=pop_lx200.AlignmentMode;
-  if result<0 then begin
     result:=0;
     FErrorNumber:=ERR_NOT_IMPLEMENTED;
     FErrorMessage:=MSG_NOT_IMPLEMENTED;
-  end;
 end;
 
 function  T_AlpacaLX200.altitude: double;
@@ -278,11 +275,15 @@ end;
 
 function  T_AlpacaLX200.athome: boolean;
 begin
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
 function  T_AlpacaLX200.atpark: boolean;
 begin
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
@@ -296,16 +297,22 @@ end;
 
 function  T_AlpacaLX200.canfindhome: boolean;
 begin
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
 function  T_AlpacaLX200.canpark: boolean;
 begin
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
 function  T_AlpacaLX200.canunpark: boolean;
 begin
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
@@ -321,16 +328,22 @@ end;
 
 function  T_AlpacaLX200.cansetguiderates: boolean;
 begin
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
 function  T_AlpacaLX200.cansetpark: boolean;
 begin
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
 function  T_AlpacaLX200.cansetpierside: boolean;
 begin
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
@@ -346,7 +359,7 @@ end;
 
 function  T_AlpacaLX200.canslew: boolean;
 begin
-  result:=false;
+  result:=true;
 end;
 
 function  T_AlpacaLX200.canslewaltaz: boolean;
@@ -361,7 +374,7 @@ end;
 
 function T_AlpacaLX200.canslewasync: boolean;
 begin
-  result:=false;
+  result:=true;
 end;
 
 function  T_AlpacaLX200.cansync: boolean;
@@ -395,6 +408,8 @@ end;
 
 function  T_AlpacaLX200.doesrefraction: boolean;
 begin
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=true;
 end;
 
@@ -489,54 +504,43 @@ end;
 
 function  T_AlpacaLX200.siteelevation: double;
 begin
- // result:=pop_lx200.SiteAltitude;
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
 
 procedure T_AlpacaLX200.setsiteelevation(value: double);
 begin
-{  if (value>=-300)and(value<=10000) then
-     pop_lx200.SiteAltitude:=value
-  else begin
-    FErrorNumber:=ERR_INVALID_VALUE;
-    FErrorMessage:=MSG_INVALID_VALUE +' siteelevation='+ FormatFloat('0.000',value);
-  end; }
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
 
 function  T_AlpacaLX200.sitelatitude: double;
 begin
- // result:=pop_lx200.SiteLatitude;
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
 
 procedure T_AlpacaLX200.setsitelatitude(value: double);
 begin
-{  if (value>=-90)and(value<=90) then
-     pop_lx200.SiteLatitude:=value
-  else begin
-    FErrorNumber:=ERR_INVALID_VALUE;
-    FErrorMessage:=MSG_INVALID_VALUE +' sitelatitude='+ FormatFloat('0.000',value);
-  end; }
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
 
 function  T_AlpacaLX200.sitelongitude: double;
 begin
-  //result:=-pop_lx200.SiteLongitude;
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
 
 procedure T_AlpacaLX200.setsitelongitude(value: double);
 begin
-{  if (value>=-180)and(value<=180) then
-     pop_lx200.SiteLongitude:=-value
-  else begin
-    FErrorNumber:=ERR_INVALID_VALUE;
-    FErrorMessage:=MSG_INVALID_VALUE +' sitelongitude='+ FormatFloat('0.000',value);
-  end;  }
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
 
 function  T_AlpacaLX200.slewing: boolean;
 begin
-  FErrorNumber:=ERR_NOT_IMPLEMENTED;
-  FErrorMessage:=MSG_NOT_IMPLEMENTED;
-  result:=false;
+  result:=pop_lx200.Slewing;
 end;
 
 function  T_AlpacaLX200.slewsettletime: integer;
@@ -596,7 +600,7 @@ end;
 
 function  T_AlpacaLX200.tracking: boolean;
 begin
-  result:=true;
+  result:=pop_lx200.ScopeGetTracking;
 end;
 
 procedure T_AlpacaLX200.settracking(value: boolean);
@@ -608,6 +612,8 @@ end;
 function  T_AlpacaLX200.trackingrate: integer;
 begin
   result:=0;
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
 
 procedure T_AlpacaLX200.settrackingrate(value: integer);
@@ -618,13 +624,14 @@ end;
 
 function  T_AlpacaLX200.trackingrates: TTrackingRates;
 begin
-  SetLength(Result,1);
-  result[0]:=0;
+  result:=nil;
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
 
 function  T_AlpacaLX200.utcdate: string;
 begin
-//  result:=pop_lx200.UTCDate;
+  result:=pop_lx200.GetUTCDate;
 end;
 
 procedure T_AlpacaLX200.setutcdate(value: string);
@@ -635,17 +642,19 @@ end;
 
 procedure T_AlpacaLX200.abortslew;
 begin
-  FErrorNumber:=ERR_NOT_IMPLEMENTED;
-  FErrorMessage:=MSG_NOT_IMPLEMENTED;
+  pop_lx200.ScopeAbortSlew;
 end;
 
 function  T_AlpacaLX200.axisrates(axis:integer): TAxisRates;
 begin
-  setlength(result,0);
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
 
 function  T_AlpacaLX200.canmoveaxis(axis:integer): boolean;
 begin
+  FErrorNumber:=ERR_NOT_IMPLEMENTED;
+  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
@@ -704,7 +713,7 @@ begin
   if (dec>=-90)and(dec<=90)and(ra>=0)and(ra<=24)  then begin
     TargetRA:=ra;
     TargetDEC:=dec;
-    pop_lx200.ScopeGoto(ra,dec,ok);
+    pop_lx200.ScopeGotoWait(ra,dec,ok);
     if not ok then begin
       FErrorNumber:=ERR_DRIVER_ERROR;
       FErrorMessage:=MSG_DRIVER_ERROR;
@@ -712,7 +721,7 @@ begin
   end
   else begin
     FErrorNumber:=ERR_INVALID_VALUE;
-    FErrorMessage:=MSG_INVALID_VALUE +' ra='+FormatFloat('0.000',ra)+' dec='+FormatFloat('0.000',ra);
+    FErrorMessage:=MSG_INVALID_VALUE +' ra='+FormatFloat('0.000',ra)+' dec='+FormatFloat('0.000',dec);
   end;
 end;
 
@@ -730,20 +739,40 @@ begin
   end
   else begin
     FErrorNumber:=ERR_INVALID_VALUE;
-    FErrorMessage:=MSG_INVALID_VALUE +' ra='+FormatFloat('0.000',ra)+' dec='+FormatFloat('0.000',ra);
+    FErrorMessage:=MSG_INVALID_VALUE +' ra='+FormatFloat('0.000',ra)+' dec='+FormatFloat('0.000',dec);
   end;
 end;
 
 procedure T_AlpacaLX200.slewtotarget;
+var ok:boolean;
 begin
-  FErrorNumber:=ERR_NOT_IMPLEMENTED;
-  FErrorMessage:=MSG_NOT_IMPLEMENTED;
+  if (TargetDEC>=-90)and(TargetDEC<=90)and(TargetRA>=0)and(TargetRA<=24)  then begin
+    pop_lx200.ScopeGotoWait(TargetRA,TargetDEC,ok);
+    if not ok then begin
+      FErrorNumber:=ERR_DRIVER_ERROR;
+      FErrorMessage:=MSG_DRIVER_ERROR;
+    end;
+  end
+  else begin
+    FErrorNumber:=ERR_INVALID_VALUE;
+    FErrorMessage:=MSG_INVALID_VALUE +' ra='+FormatFloat('0.000',TargetRA)+' dec='+FormatFloat('0.000',TargetDEC);
+  end;
 end;
 
 procedure T_AlpacaLX200.slewtotargetasync;
+var ok:boolean;
 begin
-  FErrorNumber:=ERR_NOT_IMPLEMENTED;
-  FErrorMessage:=MSG_NOT_IMPLEMENTED;
+  if (TargetDEC>=-90)and(TargetDEC<=90)and(TargetRA>=0)and(TargetRA<=24)  then begin
+    pop_lx200.ScopeGoto(TargetRA,TargetDEC,ok);
+    if not ok then begin
+      FErrorNumber:=ERR_DRIVER_ERROR;
+      FErrorMessage:=MSG_DRIVER_ERROR;
+    end;
+  end
+  else begin
+    FErrorNumber:=ERR_INVALID_VALUE;
+    FErrorMessage:=MSG_INVALID_VALUE +' ra='+FormatFloat('0.000',TargetRA)+' dec='+FormatFloat('0.000',TargetDEC);
+  end;
 end;
 
 procedure T_AlpacaLX200.synctoaltaz(az,alt: double);

@@ -112,6 +112,7 @@ function LX200_Scope_GetFRAngle: single;
 
 function LX200_QueryAlignment: string;
 function LX200_QuerySiderealTime: string;
+function LX200_QueryTracking: boolean;
 
 function DEToStr(de: double; var d, m, s: string): string;
 function ARToStr(ar: double; var d, m, s: string): string;
@@ -1751,6 +1752,19 @@ end;
 function LX200_QueryAlignment: string;
 begin
   Result := LX200_QueryGV(':GW#');
+end;
+
+function LX200_QueryTracking: boolean;
+var buf: string;
+    c: char;
+begin
+  buf := LX200_QueryGV(':GW#');
+  c := buf[2];
+  case c of
+    'T': result:=true;
+    'N': result:=false;
+    else result:=true;
+  end;
 end;
 
 function LX200_QuerySiderealTime: string;
