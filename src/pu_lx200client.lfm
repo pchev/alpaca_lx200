@@ -48,8 +48,6 @@ object pop_lx200: Tpop_lx200
         Align = alTop
         ClientHeight = 64
         ClientWidth = 383
-        Color = clNone
-        ParentColor = False
         TabOrder = 0
         object LabelAlpha: TLabel
           Left = 24
@@ -57,7 +55,6 @@ object pop_lx200: Tpop_lx200
           Top = 8
           Width = 18
           Caption = 'RA '
-          ParentColor = False
         end
         object LabelDelta: TLabel
           Left = 165
@@ -65,7 +62,6 @@ object pop_lx200: Tpop_lx200
           Top = 8
           Width = 22
           Caption = 'DEC'
-          ParentColor = False
         end
         object Label11: TLabel
           Left = 24
@@ -73,7 +69,6 @@ object pop_lx200: Tpop_lx200
           Top = 38
           Width = 14
           Caption = 'AZ'
-          ParentColor = False
         end
         object Label12: TLabel
           Left = 165
@@ -81,7 +76,6 @@ object pop_lx200: Tpop_lx200
           Top = 38
           Width = 20
           Caption = 'ALT'
-          ParentColor = False
         end
         object pos_x: TEdit
           Left = 43
@@ -246,7 +240,6 @@ object pop_lx200: Tpop_lx200
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
-          ParentColor = False
           ParentFont = False
         end
         object Label4: TLabel
@@ -259,7 +252,6 @@ object pop_lx200: Tpop_lx200
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
-          ParentColor = False
           ParentFont = False
         end
         object Label6: TLabel
@@ -272,7 +264,6 @@ object pop_lx200: Tpop_lx200
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
-          ParentColor = False
           ParentFont = False
         end
         object Label14: TLabel
@@ -285,7 +276,6 @@ object pop_lx200: Tpop_lx200
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = [fsBold]
-          ParentColor = False
           ParentFont = False
         end
         object RadioGroup1: TRadioGroup
@@ -429,7 +419,6 @@ object pop_lx200: Tpop_lx200
           Top = 2
           Width = 93
           Caption = 'Guide Rate [arc"/s]'
-          ParentColor = False
         end
         object LabelRaAzSpeed: TLabel
           Left = 14
@@ -437,7 +426,6 @@ object pop_lx200: Tpop_lx200
           Top = 34
           Width = 107
           Caption = 'RA/Az Slew Rate [°/s]'
-          ParentColor = False
         end
         object LabelDecSlewRate: TLabel
           Left = 14
@@ -445,7 +433,6 @@ object pop_lx200: Tpop_lx200
           Top = 66
           Width = 111
           Caption = 'DEC/El Slew Rate [°/s]'
-          ParentColor = False
         end
         object LxGuideRate: TFloatEdit
           Left = 172
@@ -554,7 +541,6 @@ object pop_lx200: Tpop_lx200
           Top = 27
           Width = 61
           Caption = 'Set Slewing '#13#10' Speed (2..4)'
-          ParentColor = False
         end
         object SlewSpeedBar: TTrackBar
           Left = 134
@@ -585,7 +571,6 @@ object pop_lx200: Tpop_lx200
           Top = 46
           Width = 19
           Caption = '[Hz]'
-          ParentColor = False
         end
         object TrackingDecreaseLabel: TLabel
           Left = 14
@@ -593,7 +578,6 @@ object pop_lx200: Tpop_lx200
           Top = 74
           Width = 46
           Caption = 'Decrease'#13#10' 0.1 Hz'
-          ParentColor = False
         end
         object TrackingIncreaseLabel: TLabel
           Left = 182
@@ -601,7 +585,6 @@ object pop_lx200: Tpop_lx200
           Top = 74
           Width = 41
           Caption = 'Increase'#13#10'0.1 Hz'
-          ParentColor = False
         end
         object TrackingDefaultButton: TButton
           Left = 14
@@ -715,7 +698,6 @@ object pop_lx200: Tpop_lx200
           Top = 6
           Width = 44
           Caption = 'FR Angle'
-          ParentColor = False
           Visible = False
         end
         object FieldRotation: TCheckBox
@@ -872,7 +854,6 @@ object pop_lx200: Tpop_lx200
         Top = 230
         Width = 70
         Caption = 'Pulse duration:'
-        ParentColor = False
       end
       object Label20: TLabel
         Left = 113
@@ -880,7 +861,6 @@ object pop_lx200: Tpop_lx200
         Top = 257
         Width = 14
         Caption = 'Ms'
-        ParentColor = False
       end
       object RadioGroup3: TRadioGroup
         Left = 24
@@ -983,7 +963,6 @@ object pop_lx200: Tpop_lx200
         Alignment = taCenter
         AutoSize = False
         Caption = 'Virtual HandPad for Scope.exe '
-        ParentColor = False
       end
       object HandPadModeSelection: TRadioGroup
         Left = 8
@@ -1093,7 +1072,6 @@ object pop_lx200: Tpop_lx200
         Alignment = taCenter
         AutoSize = False
         Caption = 'Advanced Settings for Scope.exe '
-        ParentColor = False
       end
       object ScopeSpeeds: TGroupBox
         Left = 16
@@ -1113,7 +1091,6 @@ object pop_lx200: Tpop_lx200
           Alignment = taCenter
           AutoSize = False
           Caption = 'msarcsec'
-          ParentColor = False
         end
         object GuideArcSecLabel: TLabel
           Left = 6
@@ -1123,7 +1100,6 @@ object pop_lx200: Tpop_lx200
           Alignment = taCenter
           AutoSize = False
           Caption = 'guide arcsec'
-          ParentColor = False
         end
         object MsArcSec: TLongEdit
           Left = 14
@@ -1331,7 +1307,6 @@ object pop_lx200: Tpop_lx200
           Top = 6
           Width = 47
           Caption = 'Latitude : '
-          ParentColor = False
         end
         object Label16: TLabel
           Left = 22
@@ -1339,7 +1314,6 @@ object pop_lx200: Tpop_lx200
           Top = 31
           Width = 70
           Caption = 'Longitude :'#13#10'(negative east '#13#10'of Greenwich)'
-          ParentColor = False
         end
         object lat: TEdit
           Left = 142
@@ -1391,7 +1365,6 @@ object pop_lx200: Tpop_lx200
           Top = 14
           Width = 29
           Caption = 'Model'
-          ParentColor = False
         end
         object Label2: TLabel
           Left = 6
@@ -1399,7 +1372,6 @@ object pop_lx200: Tpop_lx200
           Top = 46
           Width = 61
           Caption = 'Refresh rate '
-          ParentColor = False
         end
         object Label21: TLabel
           Left = 6
@@ -1408,7 +1380,6 @@ object pop_lx200: Tpop_lx200
           Width = 75
           AutoSize = False
           Caption = 'Equatorial System'
-          ParentColor = False
           WordWrap = True
         end
         object cbo_type: TComboBox
@@ -1578,7 +1549,6 @@ object pop_lx200: Tpop_lx200
           Top = 10
           Width = 50
           Caption = 'IP address'
-          ParentColor = False
         end
         object ipaddr: TEdit
           Left = 172
@@ -1594,7 +1564,6 @@ object pop_lx200: Tpop_lx200
           Top = 40
           Width = 19
           Caption = 'Port'
-          ParentColor = False
         end
         object tcpport: TEdit
           Left = 172
@@ -1610,7 +1579,6 @@ object pop_lx200: Tpop_lx200
           Top = 70
           Width = 60
           Caption = 'Timeout [ms]'
-          ParentColor = False
         end
         object tcptimeout: TEdit
           Left = 172
@@ -1636,7 +1604,6 @@ object pop_lx200: Tpop_lx200
           Top = 10
           Width = 54
           Caption = 'Serial Port :'
-          ParentColor = False
         end
         object Label7: TLabel
           Left = 22
@@ -1644,7 +1611,6 @@ object pop_lx200: Tpop_lx200
           Top = 40
           Width = 37
           Caption = 'Speed :'
-          ParentColor = False
         end
         object Label8: TLabel
           Left = 22
@@ -1652,7 +1618,6 @@ object pop_lx200: Tpop_lx200
           Top = 100
           Width = 32
           Caption = 'Parity :'
-          ParentColor = False
         end
         object Label9: TLabel
           Left = 22
@@ -1660,7 +1625,6 @@ object pop_lx200: Tpop_lx200
           Top = 70
           Width = 49
           Caption = 'Data Bits :'
-          ParentColor = False
         end
         object Label10: TLabel
           Left = 22
@@ -1668,7 +1632,6 @@ object pop_lx200: Tpop_lx200
           Top = 130
           Width = 48
           Caption = 'Stop Bits :'
-          ParentColor = False
         end
         object Label13: TLabel
           Left = 22
@@ -1676,7 +1639,6 @@ object pop_lx200: Tpop_lx200
           Top = 160
           Width = 66
           Caption = 'Timeout [ms] :'
-          ParentColor = False
         end
         object Label18: TLabel
           Left = 22
@@ -1684,7 +1646,6 @@ object pop_lx200: Tpop_lx200
           Top = 190
           Width = 79
           Caption = 'Interval Timeout '
-          ParentColor = False
         end
         object PortSpeedbox: TComboBox
           Left = 172
@@ -1820,8 +1781,6 @@ object pop_lx200: Tpop_lx200
         Width = 311
         ClientHeight = 105
         ClientWidth = 311
-        Color = clNone
-        ParentColor = False
         TabOrder = 1
         object Label17: TLabel
           Left = 15
@@ -1830,7 +1789,6 @@ object pop_lx200: Tpop_lx200
           Width = 215
           Alignment = taCenter
           Caption = 'Interface for LX200 like system.'#13#10'Will work with all systems using same protocol'#13#10'PJ Pallez Nov 1999'#13#10'Renato Bonomini Jul 2004'#13#10'P. Chevalley  2002,2011,2014'#13#10'Version 4.0'
-          ParentColor = False
         end
       end
       object RadioGroup6: TRadioGroup
@@ -1908,7 +1866,6 @@ object pop_lx200: Tpop_lx200
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
-          ParentColor = False
           ParentFont = False
         end
         object Label29: TLabel
@@ -1920,7 +1877,6 @@ object pop_lx200: Tpop_lx200
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
-          ParentColor = False
           ParentFont = False
         end
         object Label30: TLabel
@@ -1932,7 +1888,6 @@ object pop_lx200: Tpop_lx200
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
-          ParentColor = False
           ParentFont = False
         end
       end
@@ -1973,11 +1928,9 @@ object pop_lx200: Tpop_lx200
           Align = alTop
           ClientHeight = 32
           ClientWidth = 379
-          Color = clNone
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Sans Serif'
-          ParentColor = False
           ParentFont = False
           TabOrder = 1
           object LabelPort: TLabel
@@ -1989,7 +1942,6 @@ object pop_lx200: Tpop_lx200
             Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Sans Serif'
-            ParentColor = False
             ParentFont = False
           end
           object ShowTrace: TCheckBox
@@ -2014,11 +1966,9 @@ object pop_lx200: Tpop_lx200
         Align = alBottom
         ClientHeight = 39
         ClientWidth = 383
-        Color = clNone
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'MS Sans Serif'
-        ParentColor = False
         ParentFont = False
         TabOrder = 2
         object Button4: TButton
