@@ -1339,6 +1339,7 @@ procedure Tpop_lx200.kill(Sender: TObject; var CanClose: boolean);
 begin
   if port_opened then
   begin
+    StatusBar1.SimpleText:='Disconnect from telescope before to close';
     canclose := False;
   end;
 end;
