@@ -185,7 +185,6 @@ end;
 
 procedure  T_AlpacaLX200.SetConnected(value:boolean);
 var ok: boolean;
-    txt:string;
 begin
   if value then begin
     if pop_lx200.ScopeConnected then begin
@@ -193,7 +192,6 @@ begin
       FConnected:=true;
     end
     else begin
-      txt:='';
       TargetRA:=NullCoord;
       TargetDEC:=NullCoord;
       pop_lx200.ScopeConnect(ok);
@@ -504,6 +502,7 @@ end;
 
 function  T_AlpacaLX200.siteelevation: double;
 begin
+  result:=0;
   FErrorNumber:=ERR_NOT_IMPLEMENTED;
   FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
@@ -516,6 +515,7 @@ end;
 
 function  T_AlpacaLX200.sitelatitude: double;
 begin
+  result:=0;
   FErrorNumber:=ERR_NOT_IMPLEMENTED;
   FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
@@ -528,6 +528,7 @@ end;
 
 function  T_AlpacaLX200.sitelongitude: double;
 begin
+  result:=0;
   FErrorNumber:=ERR_NOT_IMPLEMENTED;
   FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;
@@ -647,6 +648,7 @@ end;
 
 function  T_AlpacaLX200.axisrates(axis:integer): TAxisRates;
 begin
+  result:=nil;
   FErrorNumber:=ERR_NOT_IMPLEMENTED;
   FErrorMessage:=MSG_NOT_IMPLEMENTED;
 end;

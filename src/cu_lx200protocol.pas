@@ -114,10 +114,10 @@ function LX200_QueryAlignment: string;
 function LX200_QuerySiderealTime: string;
 function LX200_QueryTracking: boolean;
 
-function DEToStr(de: double; var d, m, s: string): string;
-function ARToStr(ar: double; var d, m, s: string): string;
-function DEmToStr(de: double; var d, m: string): string;
-function ARmToStr(ar: double; var d, m: string): string;
+function DEToStr(de: double; out d, m, s: string): string;
+function ARToStr(ar: double; out d, m, s: string): string;
+function DEmToStr(de: double; out d, m: string): string;
+function ARmToStr(ar: double; out d, m: string): string;
 function StrToTim(tim: string; sep: string = ':'): double;
 
 type
@@ -175,7 +175,7 @@ begin
     sgn := 1;
 end;
 
-function DEToStr(de: double; var d, m, s: string): string;
+function DEToStr(de: double; out d, m, s: string): string;
 var
   dd, min1, min, sec: double;
 begin
@@ -209,7 +209,7 @@ begin
   Result := d + '°' + m + chr(39) + s + '"';
 end;
 
-function ARToStr(ar: double; var d, m, s: string): string;
+function ARToStr(ar: double; out d, m, s: string): string;
 var
   dd, min1, min, sec: double;
 begin
@@ -239,7 +239,7 @@ begin
   Result := d + 'h' + m + 'm' + s + 's';
 end;
 
-function DEmToStr(de: double; var d, m: string): string;
+function DEmToStr(de: double; out d, m: string): string;
 var
   dd, min: double;
 begin
@@ -264,7 +264,7 @@ begin
   Result := d + '°' + m + chr(39);
 end;
 
-function ARmToStr(ar: double; var d, m: string): string;
+function ARmToStr(ar: double; out d, m: string): string;
 var
   dd, min: double;
 begin
@@ -558,6 +558,7 @@ var
   Count, p, i: integer;
 begin
   Result := False;
+  buf2:='';
   case LX200_type of
     2:
     begin       // Autostar, some model have problem to respond to the double command
@@ -733,6 +734,7 @@ var
   Count, p: integer;
 begin
   Result := False;
+  buf2:='';
   case LX200_type of
     2:
     begin       // Autostar, some model have problem to respond to the double command
@@ -1280,6 +1282,7 @@ begin
   savet := DefaultFormatSettings.ShortTimeFormat;
   try
     Result := False;
+    buf:='';
     LX200_PurgeBuffer;
 
     // Set Latitude

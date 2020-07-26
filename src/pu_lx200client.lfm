@@ -22,10 +22,10 @@ object pop_lx200: Tpop_lx200
     Height = 501
     Top = 0
     Width = 374
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     Align = alClient
     MultiLine = True
-    TabIndex = 0
+    TabIndex = 6
     TabOrder = 0
     Options = [nboMultiLine]
     object TabSheet1: TTabSheet
@@ -355,14 +355,6 @@ object pop_lx200: Tpop_lx200
           Width = 89
           Caption = 'Connect'
           OnClick = setresClick
-        end
-        object SpeedButton2: TSpeedButton
-          Left = 1
-          Height = 25
-          Top = 35
-          Width = 89
-          Caption = 'Hide'
-          OnClick = SpeedButton2Click
         end
         object SpeedButton5: TSpeedButton
           Left = 184
@@ -1091,7 +1083,7 @@ object pop_lx200: Tpop_lx200
         Top = 40
         Width = 89
         Caption = 'Speed settings'
-        ClientHeight = 261
+        ClientHeight = 264
         ClientWidth = 87
         Enabled = False
         TabOrder = 1
@@ -1185,7 +1177,7 @@ object pop_lx200: Tpop_lx200
         Top = 40
         Width = 121
         Caption = 'Initialize'
-        ClientHeight = 125
+        ClientHeight = 128
         ClientWidth = 119
         Enabled = False
         ParentShowHint = False
@@ -1241,7 +1233,7 @@ object pop_lx200: Tpop_lx200
         Top = 56
         Width = 217
         Caption = 'RA/AZ PEC Compensation'
-        ClientHeight = 53
+        ClientHeight = 56
         ClientWidth = 215
         TabOrder = 0
         object RAPECOn: TButton
@@ -1269,7 +1261,7 @@ object pop_lx200: Tpop_lx200
         Top = 168
         Width = 217
         Caption = 'DEC/EL PEC Compensation'
-        ClientHeight = 53
+        ClientHeight = 56
         ClientWidth = 215
         TabOrder = 1
         object DECPECOn: TButton
@@ -1304,7 +1296,7 @@ object pop_lx200: Tpop_lx200
         Width = 119
         Caption = 'Save Setting'
         OnClick = SaveButton1Click
-        TabOrder = 7
+        TabOrder = 6
       end
       object GroupBox5: TGroupBox
         Left = 8
@@ -1312,7 +1304,7 @@ object pop_lx200: Tpop_lx200
         Top = 264
         Width = 337
         Caption = 'Observatory '
-        ClientHeight = 116
+        ClientHeight = 119
         ClientWidth = 335
         TabOrder = 4
         object Label15: TLabel
@@ -1372,7 +1364,7 @@ object pop_lx200: Tpop_lx200
         Top = 0
         Width = 178
         Caption = 'LX200'
-        ClientHeight = 99
+        ClientHeight = 102
         ClientWidth = 176
         TabOrder = 0
         object Label1: TLabel
@@ -1461,7 +1453,7 @@ object pop_lx200: Tpop_lx200
         Top = 1
         Width = 154
         Caption = 'Product Info'
-        ClientHeight = 102
+        ClientHeight = 105
         ClientWidth = 152
         TabOrder = 1
         object QueryFirmwareButton: TButton
@@ -1489,7 +1481,7 @@ object pop_lx200: Tpop_lx200
         ChildSizing.ShrinkVertical = crsScaleChilds
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 2
-        ClientHeight = 36
+        ClientHeight = 39
         ClientWidth = 335
         Columns = 2
         ItemIndex = 0
@@ -1506,7 +1498,7 @@ object pop_lx200: Tpop_lx200
         Top = 192
         Width = 338
         Caption = 'High Precision Pointing'
-        ClientHeight = 42
+        ClientHeight = 45
         ClientWidth = 336
         TabOrder = 3
         object CheckBox1: TCheckBox
@@ -1537,15 +1529,6 @@ object pop_lx200: Tpop_lx200
           ReadOnly = True
           TabOrder = 2
         end
-      end
-      object CheckBox2: TCheckBox
-        Left = 24
-        Height = 21
-        Top = 416
-        Width = 126
-        Caption = 'Form always visible'
-        OnClick = CheckBox2Click
-        TabOrder = 6
       end
       object CheckBox5: TCheckBox
         Left = 24

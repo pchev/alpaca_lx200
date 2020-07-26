@@ -35,7 +35,7 @@ will work with all systems using same protocol
 (LX200,AutoStar,..)
 
 -------------------------------------------------------------------------------}
-
+{$WARN 5024 off : Parameter "$1" not used}
 interface
 
 uses
@@ -110,7 +110,6 @@ type
     long: TEdit;
     Panel2: TPanel;
     Label17: TLabel;
-    SpeedButton2: TSpeedButton;
     SpeedButton5: TSpeedButton;
     GroupBox2: TGroupBox;
     cbo_type: TComboBox;
@@ -139,7 +138,6 @@ type
     az_x: TEdit;
     Label12: TLabel;
     alt_y: TEdit;
-    CheckBox2: TCheckBox;
     GroupBox8: TGroupBox;
     CheckBox3: TCheckBox;
     CheckBox4: TCheckBox;
@@ -242,7 +240,6 @@ type
     procedure latChange(Sender: TObject);
     procedure longChange(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
-    procedure SpeedButton2Click(Sender: TObject);
     procedure TopBtnMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: integer);
     procedure TopBtnMouseUp(Sender: TObject; Button: TMouseButton;
@@ -266,7 +263,6 @@ type
     procedure CheckBox1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
-    procedure CheckBox2Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure CheckBox3Click(Sender: TObject);
     procedure CheckBox4Click(Sender: TObject);
@@ -342,8 +338,8 @@ type
     procedure ScopeChangeButton(onoff: boolean);
     procedure ScopeShow;
     procedure ScopeShowModal(var ok: boolean);
-    procedure ScopeConnect(var ok: boolean);
-    procedure ScopeDisconnect(var ok: boolean);
+    procedure ScopeConnect(out ok: boolean);
+    procedure ScopeDisconnect(out ok: boolean);
     procedure ScopeGetInfo(var Nam: shortstring; var QueryOK, SyncOK, GotoOK: boolean;
       var refreshrate: integer);
     procedure ScopeSetObs(la, lo, tz: double);
@@ -403,7 +399,6 @@ const
   rsErrorOpening3 = 'Error opening %s on port %sCheck if device is connected and power on';
   rsConnect = 'Connect';
   rsDisconnect = 'Disconnect';
-  rsHide = 'Hide';
   rsHelp = 'Help';
   rsObservatory = 'Observatory';
   rsLatitude = 'Latitude';
@@ -475,7 +470,6 @@ const
   rsSwitchHPP = 'Switch HPP';
   rsNegativeEast = '(negative east of Greenwich)';
   rsConfiguratio = 'Configuration';
-  rsFormAlwaysVi = 'Form always visible';
   rsIPAddress = 'IP address';
   rsTCPPort = 'TCP port';
   rsCommunicatio = 'Communication protocol';
@@ -487,9 +481,6 @@ const
   rsREALLYParkAn = 'REALLY park and disconnect the telescope?';
   rsParkingAndDi = 'Parking and Disconnecting telescope.';
 
-  ldeg = 'd';
-  lmin = 'm';
-  lsec = 's';
   dateiso = 'yyyy"-"mm"-"dd"T"hh":"nn":"ss.zzz';
 {$ifdef linux}
   DefaultSerialPort = '/dev/ttyUSB0';
@@ -796,7 +787,7 @@ begin
   FRQuery.Enabled := onoff;
 end;
 
-procedure Tpop_lx200.ScopeConnect(var ok: boolean);
+procedure Tpop_lx200.ScopeConnect(out ok: boolean);
 begin
   FSlewing := false;
   led.color := clRed;
@@ -834,14 +825,12 @@ begin
   else
   begin
     LX200_Close;
-    formstyle := fsNormal;
     case RadioGroup6.ItemIndex of
       0: ShowMessage(Format(rsErrorOpening3, [cbo_type.Text, cbo_port.Text + crlf]));
       1: ShowMessage(Format(rsErrorOpening3,
           ['tcp/ip', ipaddr.Text + ':' + tcpport.Text + crlf]));
     end;
 
-    formstyle := fsStayOnTop;
     ChangeButton(False);
     // Renato Bonomini:
     if cbo_type.Text = 'Scope.exe' then
@@ -850,7 +839,7 @@ begin
   end;
 end;
 
-procedure Tpop_lx200.ScopeDisconnect(var ok: boolean);
+procedure Tpop_lx200.ScopeDisconnect(out ok: boolean);
 begin
   pos_x.Text := '';
   pos_y.Text := '';
@@ -1107,7 +1096,6 @@ begin
   SpeedButton9.Caption := rsParkTelescop;
   SpeedButton1.Caption := rsConnect;
   SpeedButton5.Caption := rsDisconnect;
-  SpeedButton2.Caption := rsHide;
   SpeedButton4.Caption := rsHelp;
   StopBtn.Caption := rsStop;
   MotorTab.Caption := rsMotor;
@@ -1179,7 +1167,6 @@ begin
   Label15.Caption := rsLatitude;
   Label16.Caption := rsLongitude + crlf + rsNegativeEast;
   CheckBox5.Caption := rsRecordProtoc;
-  CheckBox2.Caption := rsFormAlwaysVi;
   SaveButton1.Caption := rsSaveSetting;
   TabSheet3.Caption := rsPortConfigur;
   RadioGroup6.Caption := rsCommunicatio;
@@ -1203,7 +1190,6 @@ procedure Tpop_lx200.ReadConfig;
 var
   ini: tinifile;
   nom: string;
-  av: boolean;
 begin
   ini := tinifile.Create(ConfigFile);
   if ini.SectionExists('lx200') then
@@ -1319,7 +1305,6 @@ begin
   tcpport.Text := ini.readstring('lx200', 'tcpport', '999');
   tcptimeout.Text := ini.readstring('lx200', 'tcptimeout', '1000');
   checkBox1.Checked := ini.ReadBool('lx200', 'hpp', False);
-  av := ini.ReadBool('lx200', 'AlwaysVisible', True);
   checkBox3.Checked := ini.ReadBool('lx200', 'SwapNS', False);
   checkBox4.Checked := ini.ReadBool('lx200', 'SwapEW', False);
   lat.Text := ini.readstring('observatory', 'latitude', '0');
@@ -1339,8 +1324,6 @@ begin
   MsArcSecLabel.Caption := 'Microstep'#13#10'[arc"/s]';
   GuideArcSecLabel.Caption := 'Guide'#13#10'[arc"/s]';
 
-  checkbox2.Checked := av;
-
   initial := False;
 end;
 
@@ -1349,7 +1332,6 @@ begin
   if port_opened then
   begin
     canclose := False;
-    hide;
   end;
 end;
 
@@ -1424,7 +1406,6 @@ begin
   ini.writestring('lx200', 'tcpport', tcpport.Text);
   ini.writestring('lx200', 'tcptimeout', tcptimeout.Text);
   ini.writeBool('lx200', 'hpp', checkBox1.Checked);
-  ini.writeBool('lx200', 'AlwaysVisible', checkbox2.Checked);
   ini.writeBool('lx200', 'SwapNS', checkbox3.Checked);
   ini.writeBool('lx200', 'SwapEW', checkbox4.Checked);
   ini.writestring('observatory', 'latitude', lat.Text);
@@ -1475,11 +1456,6 @@ var
   ok: boolean;
 begin
   ScopeDisconnect(ok);
-end;
-
-procedure Tpop_lx200.SpeedButton2Click(Sender: TObject);
-begin
-  Hide;
 end;
 
 procedure Tpop_lx200.TopBtnMouseDown(Sender: TObject; Button: TMouseButton;
@@ -1713,16 +1689,6 @@ end;
 procedure Tpop_lx200.SpeedButton3Click(Sender: TObject);
 begin
   LX200_Slew;
-end;
-
-procedure Tpop_lx200.CheckBox2Click(Sender: TObject);
-begin
-  if initial then
-    exit;
-  if checkbox2.Checked then
-    FormStyle := fsStayOnTop
-  else
-    FormStyle := fsNormal;
 end;
 
 procedure Tpop_lx200.FormShow(Sender: TObject);
@@ -2108,9 +2074,7 @@ end;
 
 function  Tpop_lx200.ScopeGetStatus:string;
 var
-  s1, s2, s3, s4, s5: string;
-  a: double;
-  b: integer;
+  s1: string;
 begin
   if port_opened then
     s1 := rsConnected
