@@ -203,11 +203,7 @@ begin
     end;
   end
   else begin
-    pop_lx200.ScopeDisconnect(ok);
-    if not ok then begin
-      FErrorNumber:=ERR_DRIVER_ERROR;
-      FErrorMessage:='Disconnect error';
-    end;
+    FConnected:=false;
   end;
 end;
 
