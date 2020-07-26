@@ -53,6 +53,12 @@ type
     Button4: TButton;
     GroupBox10: TGroupBox;
     GroupBox11: TGroupBox;
+    GroupBox12: TGroupBox;
+    GroupBox13: TGroupBox;
+    GroupBox14: TGroupBox;
+    GroupBox15: TGroupBox;
+    GroupBox16: TGroupBox;
+    GroupBox17: TGroupBox;
     ipaddr: TEdit;
     AlpacaIPAddr: TEdit;
     AlpacaIPPort: TEdit;
