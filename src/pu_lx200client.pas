@@ -380,6 +380,12 @@ implementation
 
 {$R *.lfm}
 uses
+  {$ifdef unix}
+  unix, baseunix,
+  {$endif}
+  {$ifdef mswindows}
+  Windows,
+  {$endif}
   cu_lx200protocol,
   cu_serial;
 
@@ -1751,11 +1757,6 @@ begin
   end;
 end;
 
-procedure Tpop_lx200.SpeedButton4Click(Sender: TObject);
-begin
-  ShowHelp;
-end;
-
 procedure Tpop_lx200.RadioGroup5Click(Sender: TObject);
 begin
   RadioGroup3.Visible := (radiogroup5.ItemIndex = 1);
@@ -2135,6 +2136,103 @@ end;
 function Tpop_lx200.GetUTCDate: string;
 begin
   result:=FormatDateTime(dateiso,NowUTC);
+end;
+
+//##### show help #####
+
+{$ifdef mswindows}
+function ExecuteFile(const FileName: string): integer;
+var
+  zFileName, zParams, zDir: array[0..255] of char;
+begin
+  Result := ShellExecute(Application.MainForm.Handle, nil,
+    StrPCopy(zFileName, FileName), StrPCopy(zParams, ''),
+    StrPCopy(zDir, ''), SW_SHOWNOACTIVATE);
+end;
+
+{$endif}
+
+{$ifdef unix}
+function words(str, sep: string; p, n: integer; isep: char = ' '): string;
+var
+  i, j: integer;
+begin
+  Result := '';
+  str := trim(str);
+  for i := 1 to p - 1 do
+  begin
+    j := pos(isep, str);
+    if j = 0 then
+      j := length(str) + 1;
+    str := trim(copy(str, j + 1, length(str)));
+  end;
+  for i := 1 to n do
+  begin
+    j := pos(isep, str);
+    if j = 0 then
+      j := length(str) + 1;
+    Result := Result + trim(copy(str, 1, j - 1)) + sep;
+    str := trim(copy(str, j + 1, length(str)));
+  end;
+end;
+
+function ExecFork(cmd: string; p1: string = ''; p2: string = ''; p3: string = '';
+  p4: string = ''; p5: string = ''): integer;
+var
+  parg: array[1..7] of PChar;
+begin
+  Result := fpFork;
+  if Result = 0 then
+  begin
+    parg[1] := PChar(cmd);
+    if p1 = '' then  parg[2] := nil
+    else parg[2] := PChar(p1);
+    if p2 = '' then parg[3] := nil
+    else parg[3] := PChar(p2);
+    if p3 = '' then parg[4] := nil
+    else parg[4] := PChar(p3);
+    if p4 = '' then parg[5] := nil
+    else parg[5] := PChar(p4);
+    if p5 = '' then parg[6] := nil
+    else parg[6] := PChar(p5);
+    parg[7] := nil;
+    fpExecVP(cmd, PPChar(@parg[1]));
+  end;
+end;
+
+function ExecuteFile(const FileName: string): integer;
+var
+  cmd, p1, p2, p3, p4: string;
+const
+{$ifdef darwin}
+  OpenFileCMD: string = 'open';
+{$else}
+  OpenFileCMD: string = 'xdg-open';
+{$endif}
+begin
+  cmd := trim(words(OpenFileCMD, ' ', 1, 1));
+  p1 := trim(words(OpenFileCMD, ' ', 2, 1));
+  p2 := trim(words(OpenFileCMD, ' ', 3, 1));
+  p3 := trim(words(OpenFileCMD, ' ', 4, 1));
+  p4 := trim(words(OpenFileCMD, ' ', 5, 1));
+
+  if p1 = '' then
+    Result := ExecFork(cmd, FileName)
+  else if p2 = '' then
+    Result := ExecFork(cmd, p1, FileName)
+  else if p3 = '' then
+    Result := ExecFork(cmd, p1, p2, FileName)
+  else if p4 = '' then
+    Result := ExecFork(cmd, p1, p2, p3, FileName)
+  else
+    Result := ExecFork(cmd, p1, p2, p3, p4, FileName);
+
+end;
+{$endif}
+
+procedure Tpop_lx200.SpeedButton4Click(Sender: TObject);
+begin
+  ExecuteFile(slash(Appdir)+slash('doc')+'lx200.html');
 end;
 
 end.
