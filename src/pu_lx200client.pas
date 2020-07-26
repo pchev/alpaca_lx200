@@ -374,6 +374,7 @@ type
     rad2deg = 180 / pi;
     pi2 = 2 * pi;
     pid2 = pi/2;
+    secday = 3600 * 24;
 
 implementation
 
@@ -961,24 +962,31 @@ begin
 end;
 
 procedure Tpop_lx200.ScopeGoto(ar, de: double; var ok: boolean);
+var timeout: double;
 begin
   GotoTargetRA:=ar*15;
   GotoTargetDEC:=de;
   ok := LX200_Goto(ar * 15, de);
   if ok then begin
     FSlewing := true;
+    // wait a fews seconds for move to start
+    timeout:=now+5/secday;
+    repeat
+      sleep(100);
+      Application.ProcessMessages;
+    until (now>timeout);
   end;
 end;
 
 procedure Tpop_lx200.ScopeGotoWait(ar, de: double; var ok: boolean);
 var timeout: double;
-const secday = 3600 * 24;
 begin
   ScopeGoto(ar, de, ok);
   if ok then begin
+    // wait slewing for a max of two minutes
     timeout:=now+120/secday;
     repeat
-      sleep(1000);
+      sleep(100);
       Application.ProcessMessages;
     until (not FSlewing) or (now>timeout);
     ok:=not FSlewing;
