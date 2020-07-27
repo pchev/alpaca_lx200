@@ -32,15 +32,15 @@ currentrev=$(git rev-list --count --first-parent HEAD)
   # pkg
   sed -i.bak "18s/1.0/$version/"  $builddir/alpaca_lx200.app/Contents/Info.plist
   rm $builddir/alpaca_lx200.app/Contents/Info.plist.bak
-  cp packages/MacOSX/alpaca_lx20064.pkgproj $basedir
+  cp packages/MacOSX/alpaca_lx200.pkgproj $basedir
   cp packages/MacOSX/readme.txt $basedir
   cd $basedir
-  sed -i.bak "s/alpaca_lx200_version/$version/g" alpaca_lx20064.pkgproj 
-  rm alpaca_lx20064.pkgproj.bak
+  sed -i.bak "s/alpaca_lx200_version/$version/g" alpaca_lx200.pkgproj 
+  rm alpaca_lx200.pkgproj.bak
   sed -i.bak "s/alpaca_lx200_version/$version/" readme.txt
   rm readme.txt.bak
   mv alpaca_lx200 "AlpacaLX200"
-  packagesbuild -v alpaca_lx20064.pkgproj
+  packagesbuild -v alpaca_lx200.pkgproj
   if [[ $? -ne 0 ]]; then exit 1;fi
   cp readme.txt build/
   hdiutil create -anyowners -volname alpaca_lx200-$version-$currentrev-x86_64-macosx -imagekey zlib-level=9 -format UDZO -srcfolder ./build alpaca_lx200-$version-$currentrev-x86_64-macosx.dmg
