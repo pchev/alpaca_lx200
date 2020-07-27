@@ -50,7 +50,9 @@ type
   { Tpop_lx200 }
 
   Tpop_lx200 = class(TForm)
-    Button4: TButton;
+    BtnSave: TButton;
+    BtnSave1: TButton;
+    BtnSave2: TButton;
     GroupBox10: TGroupBox;
     GroupBox11: TGroupBox;
     GroupBox12: TGroupBox;
@@ -67,7 +69,9 @@ type
     Label30: TLabel;
     LabelPort: TLabel;
     MemoAlpaca: TMemo;
+    Panel10: TPanel;
     Panel8: TPanel;
+    Panel9: TPanel;
     PanelStatus: TPanel;
     ShowTrace: TCheckBox;
     StatusBar1: TStatusBar;
@@ -93,7 +97,6 @@ type
     GroupBox3: TGroupBox;
     led: TEdit;
     SpeedButton1: TSpeedButton;
-    SaveButton1: TButton;
     TabSheet3: TTabSheet;
     GroupBox4: TGroupBox;
     Label5: TLabel;
@@ -108,7 +111,6 @@ type
     StopbitBox: TComboBox;
     Label13: TLabel;
     TimeOutBox: TComboBox;
-    Button2: TButton;
     GroupBox5: TGroupBox;
     Label15: TLabel;
     Label16: TLabel;
@@ -317,7 +319,7 @@ type
   private
     { Private declarations }
     Appdir, ConfigDir, ConfigFile,AlpacaConfig: string;
-    CoordLock, FSlewing: boolean;
+    CoordLock: boolean;
     GotoTargetRA, GotoTargetDEC: double;
     Initial: boolean;
     procedure GetAppDir;
@@ -325,6 +327,7 @@ type
     function GetAlignmentMode: integer;
     function Jd(annee, mois, jour: integer; Heure: double): double;
     function SidTim(jd0, ut, longi: double; eqeq: double = 0): double;
+    function GetSlewing: boolean;
   public
     { Public declarations }
     {Current values}
@@ -368,7 +371,7 @@ type
     function ScopeGetTracking: boolean;
     function GetUTCDate: string;
     property  AlignmentMode: integer read GetAlignmentMode;
-    property Slewing: boolean read FSlewing;
+    property Slewing: boolean read GetSlewing;
   end;
 
   var
@@ -684,18 +687,12 @@ procedure Tpop_lx200.ShowCoordinates;
 var
   s1, s2, s3: string;
   altazok: boolean;
-const slewprec=1/60;
 begin
   if ScopeInitialized then
   begin
     LX200_QueryEQ(Curdeg_x, Curdeg_y);
     if FCanShowAltAz then
       altazok:=LX200_QueryAz(Cur_az, Cur_alt);
-    if FSlewing then begin
-      if (abs(GotoTargetRA-Curdeg_x)<slewprec) and (abs(GotoTargetDEC-Curdeg_y)<slewprec) then begin
-         FSlewing:=false;
-      end;
-    end;
     case RadioGroup2.ItemIndex of
       0:
       begin
@@ -802,7 +799,6 @@ end;
 
 procedure Tpop_lx200.ScopeConnect(out ok: boolean);
 begin
-  FSlewing := false;
   led.color := clRed;
   led.refresh;
   timer1.Enabled := False;
@@ -858,7 +854,6 @@ begin
   pos_y.Text := '';
   az_x.Text := '';
   alt_y.Text := '';
-  FSlewing := false;
   ok := LX200_Close;
   led.color := clRed;
   ChangeButton(False);
@@ -974,35 +969,32 @@ begin
 end;
 
 procedure Tpop_lx200.ScopeGoto(ar, de: double; var ok: boolean);
-var timeout: double;
 begin
   GotoTargetRA:=ar*15;
   GotoTargetDEC:=de;
   ok := LX200_Goto(ar * 15, de);
-  if ok then begin
-    FSlewing := true;
-    // wait a fews seconds for move to start
-    timeout:=now+5/secday;
-    repeat
-      sleep(100);
-      Application.ProcessMessages;
-    until (now>timeout);
-  end;
 end;
 
 procedure Tpop_lx200.ScopeGotoWait(ar, de: double; var ok: boolean);
 var timeout: double;
+    s:boolean;
 begin
   ScopeGoto(ar, de, ok);
   if ok then begin
     // wait slewing for a max of two minutes
     timeout:=now+120/secday;
     repeat
-      sleep(100);
+      sleep(200);
       Application.ProcessMessages;
-    until (not FSlewing) or (now>timeout);
-    ok:=not FSlewing;
+      s:=Slewing;
+    until (not s) or (now>timeout);
+    ok:=not s;
   end;
+end;
+
+function Tpop_lx200.GetSlewing: boolean;
+begin
+  result:=LX200_Slewing;
 end;
 
 procedure Tpop_lx200.ScopeAbortSlew;
@@ -1187,7 +1179,9 @@ begin
   Label15.Caption := rsLatitude;
   Label16.Caption := rsLongitude + crlf + rsNegativeEast;
   CheckBox5.Caption := rsRecordProtoc;
-  SaveButton1.Caption := rsSaveSetting;
+  BtnSave.Caption := rsSaveSetting;
+  BtnSave1.Caption := rsSaveSetting;
+  BtnSave2.Caption := rsSaveSetting;
   TabSheet3.Caption := rsPortConfigur;
   RadioGroup6.Caption := rsCommunicatio;
   GroupBox4.Caption := rsPortConfigur;
@@ -1202,7 +1196,6 @@ begin
   Label22.Caption := rsIPAddress;
   Label23.Caption := rsTCPPort;
   Label24.Caption := rsTimeoutMs;
-  Button2.Caption := rsSaveSetting;
 
 end;
 
@@ -1381,7 +1374,6 @@ begin
   GetAppDir;
   ScaleMainForm;
   CoordLock := False;
-  FSlewing := false;
   Initial := True;
   ReadConfig;
 end;

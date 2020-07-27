@@ -134,7 +134,7 @@ type
 
 implementation
 
-const guid='beb20602-8709-48c9-a902-c3870b8f5e6c';
+const guid='0af07ad9-df00-4716-83eb-459fa74e74b5';
 
 constructor T_AlpacaLX200.Create(AOwner: TComponent);
 begin

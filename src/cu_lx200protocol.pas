@@ -36,7 +36,7 @@ Add Tcp/Ip protocol, Patrick Chevalley Aug 2014
 interface
 
 uses
-  Dialogs, SysUtils, Classes, Forms, StrUtils, synaser, blcksock;
+  Dialogs, SysUtils, Classes, Forms, StrUtils, synaser, blcksock, math;
 
 {Communication functions}
 function LX200_Read(var buf: string; var Count: integer): boolean;
@@ -113,6 +113,7 @@ function LX200_Scope_GetFRAngle: single;
 function LX200_QueryAlignment: string;
 function LX200_QuerySiderealTime: string;
 function LX200_QueryTracking: boolean;
+function LX200_Slewing: boolean;
 
 function DEToStr(de: double; out d, m, s: string): string;
 function ARToStr(ar: double; out d, m, s: string): string;
@@ -129,6 +130,7 @@ const
     string = ('LX200', 'AutoStar', 'Magellan-II', 'Magellan-I', 'Scope.exe');
   NumModel = 5;
   crlf = chr(13) + chr(10);
+  pi2 = 2*pi;
 
 var
   {system flags and statuses}
@@ -173,6 +175,26 @@ begin
     sgn := -1
   else
     sgn := 1;
+end;
+
+Function AngularDistance(ar1,de1,ar2,de2 : Double) : Double;
+var s1,s2,c1,c2,c3: extended;
+begin
+s1:=0;s2:=0;c1:=0;c2:=0;
+try
+if (ar1=ar2) and (de1=de2) then result:=0.0
+else begin
+    sincos(de1,s1,c1);
+    sincos(de2,s2,c2);
+    c3:=(s1*s2)+(c1*c2*cos((ar1-ar2)));
+    if abs(c3)<=1 then
+       result:=arccos(c3)
+    else
+       result:=pi2;
+end;
+except
+  result:=pi2;
+end;
 end;
 
 function DEToStr(de: double; out d, m, s: string): string;
@@ -1773,6 +1795,22 @@ end;
 function LX200_QuerySiderealTime: string;
 begin
   Result := LX200_QueryGV(':GS#');
+end;
+
+function LX200_Slewing: boolean;
+var buf:string;
+    i:integer;
+begin
+  result:=false;
+  if LX200_type<=2 then begin    // lx200/autostar use :D# command that return a distance to target string.
+    buf := LX200_QueryGV(':D#');
+    if buf='Error' then
+       exit;
+    for i:=1 to length(buf) do begin
+      if buf[i]='#' then begin result:=false; break; end;
+      if buf[i]<>' ' then begin result:=true; break; end;
+    end;
+  end;
 end;
 
 end.
