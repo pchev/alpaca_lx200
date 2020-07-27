@@ -1376,6 +1376,7 @@ begin
   CoordLock := False;
   Initial := True;
   ReadConfig;
+  label17.Caption:=label17.Caption+#13#10+'Version: '+lx200_version;
 end;
 
 procedure Tpop_lx200.Timer1Timer(Sender: TObject);

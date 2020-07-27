@@ -578,7 +578,7 @@ object pop_lx200: Tpop_lx200
         Top = 193
         Width = 403
         Align = alTop
-        ClientHeight = 78
+        ClientHeight = 60
         ClientWidth = 401
         TabOrder = 2
         object FanControl: TCheckBox
@@ -619,7 +619,7 @@ object pop_lx200: Tpop_lx200
         Top = 273
         Width = 403
         Align = alTop
-        ClientHeight = 205
+        ClientHeight = 187
         ClientWidth = 401
         TabOrder = 3
         object Lx200GPSMotorSpeeds: TGroupBox
@@ -903,7 +903,7 @@ object pop_lx200: Tpop_lx200
         Top = 73
         Width = 403
         Align = alTop
-        ClientHeight = 103
+        ClientHeight = 85
         ClientWidth = 401
         TabOrder = 4
         object RadioGroup4: TRadioGroup
@@ -1603,7 +1603,7 @@ object pop_lx200: Tpop_lx200
           Width = 401
           Align = alClient
           Alignment = taCenter
-          Caption = 'Interface for LX200 like system.'#13#10'Will work with all systems using same protocol'#13#10'PJ Pallez Nov 1999'#13#10'Renato Bonomini Jul 2004'#13#10'P. Chevalley  2002,2011,2014,2020'#13#10'Version 4.0'
+          Caption = 'Interface for LX200 like system.'#13#10'Will work with all systems using same protocol'#13#10'PJ Pallez Nov 1999'#13#10'Renato Bonomini Jul 2004'#13#10'P. Chevalley  2002,2011,2014,2020'
           ParentColor = False
         end
       end
@@ -1985,8 +1985,8 @@ object pop_lx200: Tpop_lx200
           Top = 0
           Width = 401
           Align = alTop
-          ClientHeight = 32
-          ClientWidth = 401
+          ClientHeight = 28
+          ClientWidth = 397
           TabOrder = 1
           object LabelPort: TLabel
             Left = 8
