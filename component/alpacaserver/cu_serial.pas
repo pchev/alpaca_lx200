@@ -35,7 +35,7 @@ uses   Classes,
    {$ifdef mswindows}
    registry,
    {$endif}
-   synaser, SysUtils, FileUtil, synautil, blcksock, synsock;
+   synaser, SysUtils, synautil, blcksock, synsock;
 
 function OpenCom(var ser: TBlockSerial;
   CommPort, baud, parity, Data, stop, timeouts, inttimeout: string): boolean;

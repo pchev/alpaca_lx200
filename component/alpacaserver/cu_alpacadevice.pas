@@ -110,7 +110,6 @@ type
       function  DriverVersion:string; virtual; abstract;
       function  InterfaceVersion: integer; virtual; abstract;
       function  Name:string; virtual; abstract;
-      procedure SetupDialog(x:integer=-1;y:integer=-1); virtual; abstract;
       function  SupportedActions:TStringList; virtual; abstract;
       property  Path: string read FPath write FPath;
       property  SetupPath: string read FSetupPath write FSetupPath;
