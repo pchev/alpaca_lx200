@@ -290,22 +290,16 @@ end;
 
 function  T_AlpacaLX200.canfindhome: boolean;
 begin
-  FErrorNumber:=ERR_NOT_IMPLEMENTED;
-  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
 function  T_AlpacaLX200.canpark: boolean;
 begin
-  FErrorNumber:=ERR_NOT_IMPLEMENTED;
-  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
 function  T_AlpacaLX200.canunpark: boolean;
 begin
-  FErrorNumber:=ERR_NOT_IMPLEMENTED;
-  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
@@ -321,22 +315,16 @@ end;
 
 function  T_AlpacaLX200.cansetguiderates: boolean;
 begin
-  FErrorNumber:=ERR_NOT_IMPLEMENTED;
-  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
 function  T_AlpacaLX200.cansetpark: boolean;
 begin
-  FErrorNumber:=ERR_NOT_IMPLEMENTED;
-  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
 function  T_AlpacaLX200.cansetpierside: boolean;
 begin
-  FErrorNumber:=ERR_NOT_IMPLEMENTED;
-  FErrorMessage:=MSG_NOT_IMPLEMENTED;
   result:=false;
 end;
 
