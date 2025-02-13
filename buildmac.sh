@@ -2,7 +2,7 @@
 
 version=$(grep 'lx200_version' src/pu_lx200client.pas |head -1| cut -d\' -f2)
 
-basedir=/Volumes/TmpInst/alpaca_lx200   # Be sure this is set to a non existent directory, it is removed after the run!
+basedir=/tmp/alpaca_lx200   # Be sure this is set to a non existent directory, it is removed after the run!
 
 builddir=$basedir/alpaca_lx200
 
@@ -27,7 +27,7 @@ currentrev=$(git rev-list --count --first-parent HEAD)
   make CPU_TARGET=x86_64 clean
   make CPU_TARGET=x86_64
   if [[ $? -ne 0 ]]; then exit 1;fi
-  make install
+  make install CPU_TARGET=x86_64
   if [[ $? -ne 0 ]]; then exit 1;fi
   # pkg
   sed -i.bak "18s/1.0/$version/"  $builddir/alpaca_lx200.app/Contents/Info.plist
