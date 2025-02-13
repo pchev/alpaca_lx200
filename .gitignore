@@ -11,6 +11,8 @@ src/alpaca_lx200.app
 component/lib/
 component/enhedits/lib/
 component/synapse/source/lib/lib/
+component/alpacaserver/lib/
+component/synapse/lib/
 # ignore various files
 src/*.lps
 doc/alpaca_lx200.wiki
